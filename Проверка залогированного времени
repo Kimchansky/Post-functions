@@ -1,0 +1,13 @@
+import com.opensymphony.workflow.InvalidInputException
+import com.atlassian.jira.issue.Issue
+import com.atlassian.jira.issue.MutableIssue
+
+def mIssue = issue as MutableIssue
+def timeSpent = mIssue.getTimeSpent()
+def currentWorklog = mIssue.getModifiedFields().get("worklog")
+
+if (!issue.assignee.isMemberOfGroup("1 line TP Petrovich")){
+    if (!timeSpent && !currentWorklog) {
+        invalidInputException = new InvalidInputException("Просьба залогировать затраченное время")
+    }
+}
