@@ -1,0 +1,18 @@
+import kovalev.scripts.methods.requesttype
+import com.atlassian.jira.component.ComponentAccessor
+
+String customRequestValue = requesttype.getName(issue.key)
+
+
+if (customRequestValue == "Формирование заявления ЭП"){
+
+    def attachmentManager = ComponentAccessor.attachmentManager
+    def SNILS = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_18010")
+    def INN = ComponentAccessor.getCustomFieldManager().getCustomFieldObject("customfield_18011")
+    def attachments = attachmentManager.getAttachments(issue)
+    attachments.each {attachment ->
+        attachmentManager.deleteAttachment(attachment)
+    }
+    issue.setCustomFieldValue(SNILS, "***")
+    issue.setCustomFieldValue(INN, "***")
+}
